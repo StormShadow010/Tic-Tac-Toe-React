@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 const Turns = { X: "X", O: "O" };
-
+//let newWinner = null;
 const Square = ({ children, isSelected, updateBoard, index }) => {
   const className = `square ${isSelected ? "is-selected" : ""}`;
 
@@ -41,6 +41,17 @@ export const App = () => {
     }
     return null;
   };
+
+  /*useEffect(() => {
+    setWinner(newWinner);
+    alert(`Winner ${newWinner}`);
+  }, [newWinner]);*/
+  const ResetGame = () => {
+    setWinner(null);
+    setBoard([...Array(3)].map(() => Array(3).fill(null)));
+    setTurn(Turns.X);
+  };
+
   const updateBoard = (indexItem) => {
     //Avoid updating the same board position twice
     if (board[indexItem[0]][indexItem[1]] || winner) return;
@@ -54,11 +65,7 @@ export const App = () => {
     //Change the winner
     const newWinner = CheckWinner(newBoard);
     if (newWinner) {
-      setWinner(() => {
-        return newWinner;
-      });
-      //console.log(winner);
-      alert(`El ganador es ${newWinner}`);
+      setWinner(newWinner);
     }
   };
 
@@ -84,10 +91,24 @@ export const App = () => {
           );
         })}
       </section>
+
       <section className="turn">
         <Square isSelected={turn === Turns.X}>{Turns.X}</Square>
         <Square isSelected={turn === Turns.O}>{Turns.O}</Square>
       </section>
+      {winner !== null && (
+        <section className="winner">
+          <div className="text">
+            <h2>{winner === false ? "Empate" : "Ganó"}</h2>
+            <header className="win">
+              {winner && <Square>{winner}</Square>}
+            </header>
+            <footer>
+              <button onClick={ResetGame}>Empezar de nuevo</button>
+            </footer>
+          </div>
+        </section>
+      )}
     </main>
   );
 };
