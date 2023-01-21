@@ -104,7 +104,7 @@ export const App = () => {
               {winner && <Square>{winner}</Square>}
             </header>
             <footer>
-              <button onClick={ResetGame}>Empezar de nuevo!!!</button>
+              <button onClick={ResetGame}>Empezar de nuevo!!!3</button>
             </footer>
           </div>
         </section>
